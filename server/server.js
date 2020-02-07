@@ -17,6 +17,7 @@
   
   try {
     app.use(`/${SERVICE_NAME}`, router)
+    app.use(express.static('client'))
     app.get('/status', (req, res) => {
       res.status(200).send({
         'Status': `OK`
