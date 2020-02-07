@@ -5,8 +5,8 @@
   "main": "server.js",
   "scripts": {
     "test": "NODE_ENV='local-env' tape test/*.js !test/mocks/*.js | tap-spec",
-    "local": "NODE_ENV='local-env' node server.js",
-    "start": "node server.js"
+    "local": "NODE_ENV='local-env' node server/server.js",
+    "start": "node server/server.js"
   },
   "repository": {
     "type": "git",
