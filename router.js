@@ -33,7 +33,7 @@ const handleUpload = async (req, res) => {
 
 const initRouter = () => {
   const router = express.Router()
-  router.get(`/test-json`, jsonParser, testJson)
+  router.post(`/test-json`, jsonParser, testJson)
   router.post(`/doc`, upload.single('fileToUpload'), handleUpload)
   return router
 }

@@ -1,0 +1,7 @@
+{
+  "multer": {
+    "limits": {
+      "fileSize": 30000000
+    }
+  }
+}

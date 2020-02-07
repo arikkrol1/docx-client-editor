@@ -17,14 +17,4 @@ if (process.env.NODE_ENV !== 'production') {
   }))
 }
 
-const info = logger.info
-const warn = logger.warn
-const error = logger.error
-const debug = logger.debug
-
-module.exports = {
-  info,
-  warn,
-  error,
-  debug
-}
+module.exports = logger

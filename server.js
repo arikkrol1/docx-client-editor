@@ -16,7 +16,7 @@
   const router = require('./router').initRouter()
   
   try {
-    app.use(SERVICE_NAME, router)
+    app.use(`/${SERVICE_NAME}`, router)
     app.get('/status', (req, res) => {
       res.status(200).send({
         'Status': `OK`
