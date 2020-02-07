@@ -13,11 +13,11 @@ const upload = multer({
   }
 })
 
-const testJson = (req, res) => {
+const saveAsDocx = (req, res) => {
   console.log(req.body)
 }
 
-const handleUpload = async (req, res) => {
+const loadDocx = async (req, res) => {
   try {
     const file = req.file
     const fileName = file.originalname
@@ -26,15 +26,15 @@ const handleUpload = async (req, res) => {
 
     res.status(200).send({'filename': `${fileName}`})
   } catch (err) {
-    
+    logger.error(err)
     res.status(500).send({'status': 'failed'})
   }
 }
 
 const initRouter = () => {
   const router = express.Router()
-  router.post(`/test-json`, jsonParser, testJson)
-  router.post(`/doc`, upload.single('fileToUpload'), handleUpload)
+  router.post(`/save-as-docx`, jsonParser, saveAsDocx)
+  router.post(`/load-docx`, upload.single('fileToUpload'), loadDocx)
   return router
 }
 
