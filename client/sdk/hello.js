@@ -1,1 +1,1 @@
-alert('complete')
+console.log('complete')
