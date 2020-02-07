@@ -1,0 +1,28 @@
+{
+  "name": "docx-client-editor",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/arikkrol1/docx-client-editor.git"
+  },
+  "author": "Arik Krol",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/arikkrol1/docx-client-editor/issues"
+  },
+  "homepage": "https://github.com/arikkrol1/docx-client-editor#readme",
+  "dependencies": {
+    "config": "^3.2.5",
+    "uuid": "^3.4.0",
+    "winston": "^3.2.1"
+  },
+  "devDependencies": {
+    "tape": "^4.13.0"
+  }
+}
