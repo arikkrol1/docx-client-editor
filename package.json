@@ -18,7 +18,9 @@
   },
   "homepage": "https://github.com/arikkrol1/docx-client-editor#readme",
   "dependencies": {
+    "body-parser": "^1.19.0",
     "config": "^3.2.5",
+    "multer": "^1.4.2",
     "uuid": "^3.4.0",
     "winston": "^3.2.1"
   },

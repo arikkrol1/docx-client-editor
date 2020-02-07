@@ -8,14 +8,15 @@
   const express = require('express')
   const app = express()
   const config = require('config')
+  const logger = require('./utils/logger')
 
   const PORT = 8080
-  
+  const SERVICE_NAME = 'docx-client-editor'
   
   const router = require('./router').initRouter()
   
   try {
-    app.use(router)
+    app.use(SERVICE_NAME, router)
     app.get('/status', (req, res) => {
       res.status(200).send({
         'Status': `OK`
