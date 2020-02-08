@@ -148,7 +148,7 @@
           return response.blob()
         })
         .then(blob => {
-          download(blob)
+          download(blob, docData['file-name'])
         })
         .catch(error => {
           console.error(error)
