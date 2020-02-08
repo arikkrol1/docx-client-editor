@@ -59,9 +59,54 @@ const convertDocxToJson = async (docDocx) => {
   return jsonFilesMap
 }
 
-const convertJsonToDocx = (docJson) => {
-  // TODO: complete
+/**
+ * @param {Object.<string, any>} jsonsFilesMap 
+ */
+const translateJsonsToXmls = (jsonsFilesMap) => {
+  const builder = new xml2js.Builder()
+  const keys = Object.keys(jsonsFilesMap)
+  const res = {}
+  for (const key of keys) {
+    res[key] = builder.buildObject(jsonsFilesMap[key])
+  }
+  return res
 }
+
+/**
+ * @param {{'file-name': string, 'doc-content':any}} docJson 
+ */
+const convertJsonToDocx = async (docJson) => {
+  const fileName = docJson["file-name"]
+  const xmlFilesMap = translateJsonsToXmls(docJson["doc-content"])
+  
+  
+}
+
+// /**
+//  * @param {ArrayBuffer | Buffer} origBuffer 
+//  * @param {Object.<string, string>} modifiedFilesObj key: file path, val: file content
+//  */
+// const rebuildMultiFileBuffer = async (origBuffer, modifiedFilesObj) => {
+//   const zip = await JSZip.loadAsync(origBuffer)
+
+//   Object.keys(modifiedFilesObj).forEach(filePath => {
+//     const modifiedFileXml = modifiedFilesObj[filePath]
+//     zip.file(filePath, Buffer.from(modifiedFileXml))
+//   })
+
+//   const zipStream = zip.generateNodeStream({ type: 'nodebuffer', streamFiles: true })
+
+//   return new Promise((resolve) => {
+//     const bufArr = []
+//     zipStream.on('data', (chunk) => {
+//       bufArr.push(chunk)
+//     })
+//     zipStream.on('end', () => {
+//       const resBuffer = Buffer.concat(bufArr)
+//       resolve(resBuffer)
+//     })
+//   })
+// }
 
 
 module.exports = {

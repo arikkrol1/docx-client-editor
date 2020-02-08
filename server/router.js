@@ -14,14 +14,19 @@ const upload = multer({
   }
 })
 
-const saveAsDocx = (req, res) => {
-  console.log('saveeeeeeeeeeeeeeeeee', req.body)
+const saveAsDocx = async (req, res) => {
+  const fileData = req.body
+  const fileName = fileData['file-name']
+  logger.info(`converting file ${fileName} to docx`)
+  const docx = await docxJsonConverter.convertJsonToDocx(fileData)
+  logger.info(`converting file ${fileName} to docx succeeded`)
+  res.status(200).send(docx)
 }
 
 const loadDocx = async (req, res) => {
   try {
     const file = req.file
-    logger.info(`converting file ${file.originalname} `)
+    logger.info(`converting file ${file.originalname} to json`)
     const docJson = await docxJsonConverter.convertDocxToJson(file)
     const docData = {
       'file-name': file.originalname,
@@ -31,7 +36,7 @@ const loadDocx = async (req, res) => {
     res.status(200).send(docData)
   } catch (err) {
     logger.error(err)
-    res.status(500).send({'status': 'failed'})
+    res.status(500).send({ 'status': 'failed' })
   }
 }
 
