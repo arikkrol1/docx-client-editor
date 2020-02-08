@@ -126,6 +126,8 @@
         })
         .then(data => {
           docData = data
+          document.querySelector('#openDocName').innerText = docData["file-name"]
+          document.querySelector('#saveAsDocxBtn').classList.remove("hidden")
           console.log('docData:', docData)
 
           // TODO: open docData with sdk

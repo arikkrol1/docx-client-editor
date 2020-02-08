@@ -23,8 +23,12 @@ const loadDocx = async (req, res) => {
     const file = req.file
     logger.info(`converting file ${file.originalname} `)
     const docJson = await docxJsonConverter.convertDocxToJson(file)
+    const docData = {
+      'file-name': file.originalname,
+      'doc-content': docJson
+    }
     logger.info(`converting succeeded for ${file.originalname} `)
-    res.status(200).send(docJson)
+    res.status(200).send(docData)
   } catch (err) {
     logger.error(err)
     res.status(500).send({'status': 'failed'})
