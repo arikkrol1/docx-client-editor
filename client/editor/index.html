@@ -35,6 +35,12 @@
 
     }
 
+    #openDocData {
+      height: 50px;
+      margin: 10px 0 0 0;
+      color: green;
+    }
+
     #docBtnWrapper {
       margin: 10px 0 0 20px;
     }
@@ -65,6 +71,10 @@
       position: relative;
       top: 1px;
     }
+
+    .hidden {
+      display: none;
+    }
   </style>
   <script src='/sdk/hello.js'></script>
 </head>
@@ -77,9 +87,14 @@
     <div id="leftPane">
       <div id="docBtnWrapper">
         <input id="uploadDocx" type="file" style="display: none" />
-        <a href="#" id="uploadDocxBtn" class="docBtn">select file</a>
+        <a href="#" id="uploadDocxBtn" class="docBtn">select .docx file</a>
 
-        
+        <div id="openDocData">
+          <span id="openDocName">No file selected</span>
+        </div>
+
+        <input id="saveAsDocx" type="file" style="display: none" />
+        <a href="#" id="saveAsDocxBtn" class="docBtn hidden">save as .docx</a>
       </div>
 
     </div>
@@ -111,8 +126,8 @@
         })
         .then(data => {
           docData = data
-          console.log('docData:', docData )
-          
+          console.log('docData:', docData)
+
           // TODO: open docData with sdk
         })
         .catch(error => {
