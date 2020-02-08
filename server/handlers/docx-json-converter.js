@@ -61,6 +61,7 @@ const convertDocxToJson = async (docDocx) => {
 
 /**
  * @param {Object.<string, any>} jsonsFilesMap 
+ * @returns {Object.<string, any>}
  */
 const translateJsonsToXmls = (jsonsFilesMap) => {
   const builder = new xml2js.Builder()
@@ -73,13 +74,40 @@ const translateJsonsToXmls = (jsonsFilesMap) => {
 }
 
 /**
- * @param {{'file-name': string, 'doc-content':any}} docJson 
+ * @param {Object.<string, string>} xmlFilesMap 
+ * @returns {Object} Stream
  */
-const convertJsonToDocx = async (docJson) => {
+const buildZipBufferFromXmls = (xmlFilesMap) => {
+  const zip = new jsZip()
+  Object.keys(xmlFilesMap).forEach(key => {
+    zip.file(key, Buffer.from(xmlFilesMap[key]))
+  })
+  const zipStream = zip.generateNodeStream({ type: 'nodebuffer', streamFiles: true })
+  return zipStream
+  // return new Promise((resolve) => {
+  //   const bufArr = []
+  //   zipStream.on('data', (chunk) => {
+  //     bufArr.push(chunk)
+  //   })
+  //   zipStream.on('end', () => {
+  //     const resBuffer = Buffer.concat(bufArr)
+  //     resolve(resBuffer)
+  //   })
+  // })
+}
+
+/**
+ * @param {{'file-name': string, 'doc-content':any}} docJson 
+ * @returns {{name:string, stream:Object}}
+ */
+const convertJsonToDocx = (docJson) => {
   const fileName = docJson["file-name"]
   const xmlFilesMap = translateJsonsToXmls(docJson["doc-content"])
-  
-  
+  const docxStream = buildZipBufferFromXmls(xmlFilesMap)
+  return {
+    name: fileName,
+    stream: docxStream
+  }
 }
 
 // /**
