@@ -76,6 +76,7 @@
       display: none;
     }
   </style>
+  <script src='/editor/lib/download.js'></script>
   <script src='/sdk/hello.js'></script>
 </head>
 
@@ -144,10 +145,10 @@
         body: JSON.stringify(docData)
       })
         .then(response => {
-          return response.json()
+          return response.blob()
         })
-        .then(data => {
-          console.log('response:', data)
+        .then(blob => {
+          download(blob)
         })
         .catch(error => {
           console.error(error)
