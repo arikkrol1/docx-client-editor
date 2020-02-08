@@ -1,6 +1,7 @@
 // @ts-check
 
-const JSZip = require('jszip')
+const jsZip = require('jszip')
+const xml2js = require('xml2js')
 const logger = require('../utils/logger')
 
 /**
@@ -21,7 +22,7 @@ const removeBOM = (str) => {
  */
 const extractXmlFileStrings = async (docBuffer) => {
   logger.info('Starting to extract xml strings from doc buffer')
-  const zip = await JSZip.loadAsync(docBuffer)
+  const zip = await jsZip.loadAsync(docBuffer)
   
   const res = {}
   for (const fileName of Object.keys(zip.files)) {
@@ -34,11 +35,28 @@ const extractXmlFileStrings = async (docBuffer) => {
   return res
 }
 
-const convertDocxToJson = async (docDocx) => {
-  const xmlFilesMap = extractXmlFileStrings(docDocx.buffer)
-  
-  
+/**
+ * @param {Object.<string, string>} xmlFilesMap 
+ * @returns {Promise<Object.<string, any>>}
+ */
+const translateXmlsToJsons = async (xmlFilesMap) => {
+  const parser = new xml2js.Parser()
+  const keys = Object.keys(xmlFilesMap)
+  const res = {}
+  for (const key of keys) {
+    res[key] = await parser.parseStringPromise(xmlFilesMap[key])
+  }
+  return res
+}
 
+/**
+ * @param {{buffer: Buffer}} docDocx 
+ * @returns {Promise<Object.<string, any>>}
+ */
+const convertDocxToJson = async (docDocx) => {
+  const xmlFilesMap = await extractXmlFileStrings(docDocx.buffer)
+  const jsonFilesMap = await translateXmlsToJsons(xmlFilesMap)
+  return jsonFilesMap
 }
 
 const convertJsonToDocx = (docJson) => {

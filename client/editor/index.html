@@ -88,9 +88,9 @@
   </div>
   <div id="footer"></div>
   <script>
+    let docData = null
     const uploadBtn = () => {
       document.querySelector("#uploadInput").click()
-
     }
 
     const handleDocUpload = (event) => {
@@ -100,14 +100,16 @@
       const formData = new FormData()
       formData.append('file', files[0])
 
-      // TODO: implement server endpoint for uploading doc
       const resp = fetch('/docx-client-editor/load-docx', {
         method: 'POST',
         body: formData
       })
-        .then(response => response.json())
+        .then(response => {
+          return response.json()
+        })
         .then(data => {
-          console.log(data.path)
+          docData = data
+          // TODO: open docData with sdk
         })
         .catch(error => {
           console.error(error)
