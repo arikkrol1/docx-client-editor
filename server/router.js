@@ -4,6 +4,7 @@ const express = require('express')
 const config = require('config')
 const bodyParser = require('body-parser')
 const logger = require('./utils/logger')
+const docxJsonConverter = require('./handlers/docx-json-converter')
 const jsonParser = bodyParser.json({ 'limit': '30mb' })
 const multer = require('multer')
 const upload = multer({
@@ -20,14 +21,10 @@ const saveAsDocx = (req, res) => {
 const loadDocx = async (req, res) => {
   try {
     const file = req.file
-    const fileName = file.originalname
-
-    console.log(file)
-    
-
-    logger.info(`upload succeeded for ${file.originalname} `)
-
-    res.status(200).send({'filename': `${fileName}`})
+    logger.info(`converting file ${file.originalname} `)
+    const docJson = docxJsonConverter.convertDocxToJson(file)
+    logger.info(`converting succeeded for ${file.originalname} `)
+    res.status(200).send(docJson)
   } catch (err) {
     logger.error(err)
     res.status(500).send({'status': 'failed'})
