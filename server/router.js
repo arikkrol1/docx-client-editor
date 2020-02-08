@@ -22,7 +22,10 @@ const loadDocx = async (req, res) => {
     const file = req.file
     const fileName = file.originalname
 
-    logger.info(`upload succeeded for ${req.file.originalname} `)
+    console.log(file)
+    
+
+    logger.info(`upload succeeded for ${file.originalname} `)
 
     res.status(200).send({'filename': `${fileName}`})
   } catch (err) {
@@ -34,7 +37,7 @@ const loadDocx = async (req, res) => {
 const initRouter = () => {
   const router = express.Router()
   router.post(`/save-as-docx`, jsonParser, saveAsDocx)
-  router.post(`/load-docx`, upload.single('fileToUpload'), loadDocx)
+  router.post(`/load-docx`, upload.single('file'), loadDocx)
   return router
 }
 
